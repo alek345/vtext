@@ -1,20 +1,5 @@
 ACT I
 
-//*/ C code start
-
-#include <stdio.h>
-
-int main(int argc, char **argv) {
-
-    printf("Hello, world!\n");
-
-    return 0;
-}
-
-//*/ C code end
-
-SCENE I. Elsinore. A platform before the castle.
-
 FRANCISCO at his post. Enter to him BERNARDO
 BERNARDO
 Who's there?

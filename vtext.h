@@ -32,6 +32,8 @@ typedef struct {
     char *path;
     
     bool nixLines;
+    bool new_file;
+    bool changed;
     
     bool dirty;
 } Buffer;

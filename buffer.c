@@ -24,6 +24,8 @@ Buffer* buffer_new(char *name) {
     
     buffer->nixLines = true;
     buffer->dirty = true;
+    buffer->new_file = true;
+    buffer->changed = true;
     
     return buffer;
 }
@@ -57,7 +59,8 @@ Buffer* buffer_read(char *path) {
     buffer->current_x = 1;
     buffer->x_we_want = 1;
     buffer->dirty = false;
-    
+    buffer->changed = false;
+    buffer->new_file = false;
     
     Line *line = NULL;
     char *ptr = data;
@@ -173,7 +176,11 @@ Buffer* buffer_read(char *path) {
     return buffer;
 }
 
-int buffer_save(Buffer *buffer) {    
+int buffer_save(Buffer *buffer) {
+    if(buffer->changed == false) {
+        return 0;
+    }
+    
     if(buffer->path == NULL) {
         buffer->path = buffer->name;
     }
@@ -225,6 +232,9 @@ int buffer_save(Buffer *buffer) {
     
     fflush(f);
     fclose(f);
+    
+    buffer->changed = false;
+    buffer->new_file = false;
     
     return 0;
 }
@@ -289,6 +299,7 @@ void buffer_insert(Buffer *buffer, const char *text) {
     buffer->current_line->text = new_text;
     
     buffer->dirty = true;
+    active_buffer->changed = true;
 }
 
 int buffer_get_current_line_number(Buffer *buffer) {
@@ -353,6 +364,7 @@ void buffer_return(Buffer *buffer) {
         if(prev) prev->next = l;
         
         buffer->dirty = true;
+        active_buffer->changed = true;
         
         return;
     }
@@ -374,6 +386,7 @@ void buffer_return(Buffer *buffer) {
         
         buffer->current_x = 1;
         buffer->dirty = true;
+        active_buffer->changed = true;
         
         return;
     }
@@ -406,6 +419,7 @@ void buffer_return(Buffer *buffer) {
     
     buffer->current_line = new_line;
     buffer->dirty = true;
+    active_buffer->changed = true;
 }
 
 void buffer_backspace(Buffer *buffer) {
@@ -442,6 +456,7 @@ void buffer_backspace(Buffer *buffer) {
             buffer->current_line = next;
             buffer->current_x = 1;
             buffer->x_we_want = 1;
+            active_buffer->changed = true;
             
             return;
         }
@@ -467,6 +482,7 @@ void buffer_backspace(Buffer *buffer) {
             
             buffer->current_x = my_strlen(prev->text) + 1;
             buffer->x_we_want = buffer->current_x;
+            active_buffer->changed = true;
             
             return;
         }
@@ -487,6 +503,7 @@ void buffer_backspace(Buffer *buffer) {
         buffer->current_line = prev;
         buffer->current_x = my_strlen(prev->text) + 1;
         buffer->x_we_want = buffer->current_x;
+        active_buffer->changed = true;
         
         return;
         
@@ -523,6 +540,7 @@ void buffer_backspace(Buffer *buffer) {
                     
                     free(buffer->current_line);
                     buffer->current_line = prev;
+                    active_buffer->changed = true;
                     
                     return;
                     
@@ -564,6 +582,7 @@ void buffer_backspace(Buffer *buffer) {
                 
                 free(buffer->current_line);
                 buffer->current_line = prev;
+                active_buffer->changed = true;
                 
                 return;
                 
@@ -580,6 +599,7 @@ void buffer_backspace(Buffer *buffer) {
             buffer->current_line->text[old_len-1] = 0;
             buffer->current_x--;
             buffer->x_we_want = buffer->current_x;
+            active_buffer->changed = true;
             
             return;
         }
@@ -601,6 +621,7 @@ void buffer_backspace(Buffer *buffer) {
         buffer->current_line->text = new_line;
         buffer->current_x--;
         buffer->x_we_want = buffer->current_x;
+        active_buffer->changed = true;
         
         return;
     }

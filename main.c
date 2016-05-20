@@ -41,9 +41,13 @@ void mode_open() {
 void mode_insert() {
     if(active_buffer->dirty) {
         clear_window();
+        
         draw_status();
         draw_buffer();
         
+        draw_window();
+    } else {
+        draw_status();
         draw_window();
     }
 }

@@ -61,6 +61,7 @@ void input_insert(SDL_Event e) {
                     active_buffer->current_x = x + my_strlen(text);
                     active_buffer->x_we_want = active_buffer->current_x;
                     SDL_free(text);
+                    active_buffer->changed = true;
                 }
             }
             
@@ -114,6 +115,8 @@ void input_insert(SDL_Event e) {
                 }
                 active_buffer->current_x = 1;
                 active_buffer->x_we_want = 1;
+                
+                active_buffer->changed = true;
                 
                 free(to_remove->text);
                 free(to_remove);
@@ -458,8 +461,20 @@ void draw_status() {
         buffer->current_x,
         buffer->nixLines ? "unix" : "dos"
     );
+    if(buffer->new_file) {
+        int offset = my_strlen(text);
+        sprintf(
+            text+offset,
+            " NEW"
+        );
+    }
     
     SDL_Color c = {0, 0, 0};
+    if(buffer->changed) {
+        c.r = 179;
+        c.g = 58;
+        c.b = 58;
+    }
     SDL_Surface *text_surface = TTF_RenderUTF8_Blended(font, text, c);
     
     draw_rect(0, 0, window_state.width, 20, 0x888888);
