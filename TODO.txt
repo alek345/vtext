@@ -1,0 +1,25 @@
+TODO:
+# - Work in progress
+* - Done
+
+[#] Add support for paste
+    Make buffer_insert return the number of chars inserted
+
+[ ] Add buffer load and save interfaces
+
+[ ] Make the cursor always stay in view
+    That means even when scrolling. But possibly
+    not when searching for something in a file
+
+[ ] Add some seek left and seek right function
+
+[ ] Change to using stb_truetype to render image
+    Check the test project for instructions
+    [ ] Make sure this support non-monospaced fonts.
+        (HINT: Use a non-monospaced font while developing this)
+
+[ ] Add support for different font sizes
+
+[ ] Bordelessness (Maybe?)
+
+[ ] Figure out a way to do really basic syntax highlighting

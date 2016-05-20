@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include "vtext.h"
+
+int main(int argc, char **argv) {
+    
+    Buffer *buf = buffer_new("test_file.txt");
+//    buffer_insert(buf, "Hello, world!");
+//    buf->current_x = 6;
+//    buffer_insert(buf, "(am i here?)");
+//    buf->current_x = 1;
+//    buffer_save(buf);
+//    return 0;
+    
+    If i modify this, will it stay? Or do we still have problems
+    saving main.c. This time we're saving to another path.
+
+    Buffer *buffer = buffer_read("main.c");
+    buffer->path = "output.txt";
+/*    
+    buffer->nixLines = true;
+    buffer->dirty = true;
+    buffer_save(buffer);
+ */   
+    setup_window("vText - 0.0.1", 800, 600);
+    setup_ui();
+    
+    set_buffer(buffer);
+//    set_buffer(buf);
+    
+    // Use this and SDL_TEXTINPUT event for actual text input
+    SDL_StartTextInput();
+    
+    while(window_state.open) {
+        update_window();
+        //clear_window();
+
+        /*
+        ui_begin();
+            
+        if(ui_button(123, 50, 50, 40, 40)) {
+            printf("Clicked!\n");
+        }
+        
+        ui_end();*/
+        
+        if(active_buffer->dirty) {
+            clear_window();
+            draw_status();
+            draw_buffer();
+            
+            draw_window();
+        }
+        
+        //draw_window();
+        SDL_Delay(33);
+    }
+    
+    return 0;
+}

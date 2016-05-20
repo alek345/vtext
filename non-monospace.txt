@@ -1,0 +1,11 @@
+Eyhhh it almost works!!!
+
+Althogh it's quite unusable
+
+But nontheless atleast it doesn't crash
+
+To get this working I have to render each glyph one by one
+this would probably be slow but maybe a good idea
+since it would to syntax highlighting a lot easier.
+I could also have seperate text color for text under
+the caret.
