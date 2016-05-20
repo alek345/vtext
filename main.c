@@ -22,6 +22,9 @@ void mode_open() {
             
     if(ui_button(123, 50, 50, 50, 25, "Open")) {
         Buffer *b = buffer_read(open_buffer);
+        if(b == NULL) {
+            b = buffer_new(open_buffer);
+        }
         
         if(b) {
             active_buffer = b;
