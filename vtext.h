@@ -132,6 +132,7 @@ void set_mode(Mode mode);
 #define OPEN_BUFFER_LEN 1024
 char open_buffer[OPEN_BUFFER_LEN];
 int open_buffer_ptr;
+bool open_now;
 
 TTF_Font *font;
 SDL_Color fgcolor;

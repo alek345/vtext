@@ -20,7 +20,7 @@ void mode_open() {
     SDL_BlitSurface(text, NULL, window_state.surface, &dst);
     SDL_FreeSurface(text);
             
-    if(ui_button(123, 50, 50, 50, 25, "Open")) {
+    if(ui_button(123, 50, 50, 50, 25, "Open") || open_now) {
         Buffer *b = buffer_read(open_buffer);
         if(b == NULL) {
             b = buffer_new(open_buffer);
@@ -64,6 +64,7 @@ void set_mode(Mode mode) {
         } break;
         
         case MODE_OPEN: {
+            open_now = false;
             open_buffer_ptr = 0;
             int i;
             for(i = 0; i < OPEN_BUFFER_LEN; i++) {

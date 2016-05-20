@@ -191,45 +191,45 @@ void input_insert(SDL_Event e) {
                     }
                     
                     active_buffer->dirty = true;
-                    }
                 }
+            }
                 
-                if(e.key.keysym.sym == SDLK_LEFT) {
-                    if(active_buffer->current_x == 1) {
-                        active_buffer->x_we_want = 1;
-                    } else {
-                        active_buffer->x_we_want = active_buffer->current_x - 1;
-                    }
-                    active_buffer->current_x = active_buffer->x_we_want;
-                    active_buffer->dirty = true;
-                } else if(e.key.keysym.sym == SDLK_RIGHT) {
-                    if(active_buffer->current_x > my_strlen(active_buffer->current_line->text)) {
-                        active_buffer->x_we_want = 1+my_strlen(active_buffer->current_line->text);
-                    } else {
-                        active_buffer->x_we_want = active_buffer->current_x + 1;
-                    }
-                    active_buffer->current_x = active_buffer->x_we_want;
-                    active_buffer->dirty = true;
-                }
-                
-                if(e.key.keysym.sym == SDLK_HOME) {
+            if(e.key.keysym.sym == SDLK_LEFT) {
+                if(active_buffer->current_x == 1) {
                     active_buffer->x_we_want = 1;
-                    active_buffer->current_x = 1;
-                    active_buffer->dirty = true;
-                } else if(e.key.keysym.sym == SDLK_END) {
-                    int len = my_strlen(active_buffer->current_line->text);
-                    active_buffer->x_we_want = -1; // -1 means we want the END
-                    active_buffer->current_x = len+1;
-                    active_buffer->dirty = true;
+                } else {
+                    active_buffer->x_we_want = active_buffer->current_x - 1;
                 }
+                active_buffer->current_x = active_buffer->x_we_want;
+                active_buffer->dirty = true;
+            } else if(e.key.keysym.sym == SDLK_RIGHT) {
+                if(active_buffer->current_x > my_strlen(active_buffer->current_line->text)) {
+                    active_buffer->x_we_want = 1+my_strlen(active_buffer->current_line->text);
+                } else {
+                    active_buffer->x_we_want = active_buffer->current_x + 1;
+                }
+                active_buffer->current_x = active_buffer->x_we_want;
+                active_buffer->dirty = true;
+            }
                 
-                if(e.key.keysym.sym == SDLK_RETURN) {
-                    buffer_return(active_buffer);
-                }
-                
-                if(e.key.keysym.sym == SDLK_BACKSPACE) {
-                    buffer_backspace(active_buffer);
-                }
+            if(e.key.keysym.sym == SDLK_HOME) {
+                active_buffer->x_we_want = 1;
+                active_buffer->current_x = 1;
+                active_buffer->dirty = true;
+            } else if(e.key.keysym.sym == SDLK_END) {
+                int len = my_strlen(active_buffer->current_line->text);
+                active_buffer->x_we_want = -1; // -1 means we want the END
+                active_buffer->current_x = len+1;
+                active_buffer->dirty = true;
+            }
+            
+            if(e.key.keysym.sym == SDLK_RETURN) {
+                buffer_return(active_buffer);
+            }
+            
+            if(e.key.keysym.sym == SDLK_BACKSPACE) {
+                buffer_backspace(active_buffer);
+            }
                 
         } break;
         
@@ -279,6 +279,21 @@ void input_open(SDL_Event e) {
             if(e.text.text[1] == 0) {
                 open_buffer_ptr++;
                 open_buffer[open_buffer_ptr-1] = e.text.text[0];
+            }
+        } break;
+        
+        case SDL_KEYDOWN: {
+            switch(e.key.keysym.sym) {
+                case SDLK_BACKSPACE: {
+                    if(open_buffer_ptr == 0) break;
+                    
+                    open_buffer[open_buffer_ptr-1] = 0;
+                    open_buffer_ptr--;
+                } break;
+                
+                case SDLK_RETURN: {
+                    open_now = true;
+                } break;
             }
         } break;
         
