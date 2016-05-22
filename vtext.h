@@ -118,7 +118,22 @@ bool ui_button(int id, int x, int y, int w, int h, char *text);
 
 void draw_buffer();
 
-/////////////// Global variables /////////////7///
+/////////////// Buffer managment /////////////////
+
+typedef struct {
+    Buffer **buffers;
+    int num_buffers;
+	int active_offset;
+} BufferManager;
+
+void manager_init();
+void manager_next();
+void manager_prev();
+void manager_add(Buffer *buffer);
+void manager_close(Buffer *buffer);
+void manager_close_current();
+
+/////////////// Global variables /////////////////
 
 typedef enum {
     MODE_INSERT,
@@ -142,6 +157,7 @@ SDL_Surface *green;
 WindowState window_state;
 UIState ui_state;
 
+BufferManager manager;
 Buffer *active_buffer;
 
 #endif /* VTEXT_H */

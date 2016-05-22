@@ -1,17 +1,18 @@
 TODO:
-# - Work in progress
+# - Work in progress/Partially done
 * - Done
 
-[#] Add support for paste
-    Make buffer_insert return the number of chars inserted
+[*] Add support for paste
 
-[ ] Add buffer load and save interfaces
+[ ] Add buffer managing(Switching between buffers)
+
+[#] Add buffer load and save interfaces
+
+[ ] Add some seek left and seek right function
 
 [ ] Make the cursor always stay in view
     That means even when scrolling. But possibly
     not when searching for something in a file
-
-[ ] Add some seek left and seek right function
 
 [ ] Change to using stb_truetype to render image
     Check the test project for instructions
@@ -20,6 +21,6 @@ TODO:
 
 [ ] Add support for different font sizes
 
-[ ] Bordelessness (Maybe?)
-
 [ ] Figure out a way to do really basic syntax highlighting
+
+[ ] Bordelessness (Maybe?)

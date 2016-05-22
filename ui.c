@@ -294,6 +294,10 @@ void input_open(SDL_Event e) {
                 case SDLK_RETURN: {
                     open_now = true;
                 } break;
+                
+                case SDLK_ESCAPE: {
+                    set_mode(MODE_INSERT);
+                } break;
             }
         } break;
         
@@ -341,6 +345,7 @@ void update_window() {
                     case SDL_WINDOWEVENT_SIZE_CHANGED: {
                         window_state.width = e.window.data1;
                         window_state.height = e.window.data2;
+                        window_state.surface = SDL_GetWindowSurface(window_state.window);
                         active_buffer->dirty = true;
                     } break;
                     
@@ -468,27 +473,31 @@ void draw_status() {
     Buffer *buffer = active_buffer;
     
     char text[1024];
+    text[0] = 0;
+
+    if(buffer->new_file) {
+        sprintf(
+            text,
+            "*NEW* - "
+        );
+    }
+
+    int offset = my_strlen(text);
+
     sprintf(
-        text, 
+        text+offset, 
         "%s - L%d C%d - %s",
         buffer->name, 
         buffer_get_current_line_number(buffer),
         buffer->current_x,
         buffer->nixLines ? "unix" : "dos"
     );
-    if(buffer->new_file) {
-        int offset = my_strlen(text);
-        sprintf(
-            text+offset,
-            " NEW"
-        );
-    }
     
     SDL_Color c = {0, 0, 0};
     if(buffer->changed) {
-        c.r = 179;
-        c.g = 58;
-        c.b = 58;
+        c.r = 0xCC;
+        c.g = 0;
+        c.b = 0;
     }
     SDL_Surface *text_surface = TTF_RenderUTF8_Blended(font, text, c);
     
